@@ -1,0 +1,12 @@
+Membuat URL Shorterner:
+- Ada dashboard analiysis untuk masing-masing pengguna dan bisa manage list url yang ada. bisa lihat statistik url yang ada dan performanya.
+
+Pengguna Gratis:
+- bisa buat short url dengan link kode random
+- tetapi pengguna url short terkena iklan sekali saat pertama mengunjungi url tersebut
+- max 20 short url aktif
+
+Pengguna Premium:
+- bisa buat short url dengan slug custom yang tersedia
+- pengguna url short tidak lagi terkena iklan saat pertama kali mengunjungi url tersebut
+- max 50 short url aktif
