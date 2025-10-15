@@ -1,5 +1,8 @@
 Membuat URL Shorterner:
 - Ada dashboard analiysis untuk masing-masing pengguna dan bisa manage list url yang ada. bisa lihat statistik url yang ada dan performanya.
+- Domain Url Utama: tron.link
+- Domain Url Dasboard: app.tron.link
+- Tema tampilan website seperti tron ares
 
 Pengguna Gratis:
 - bisa buat short url dengan link kode random
