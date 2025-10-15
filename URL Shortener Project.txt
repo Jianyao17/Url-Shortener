@@ -6,7 +6,9 @@ Membuat URL Shorterner:
 
 Pengguna Gratis:
 - bisa buat short url dengan link kode random
-- tetapi pengguna url short terkena iklan sekali saat pertama mengunjungi url tersebut
+- Kunjungan pertama ke short URL menampilkan iklan dan memulai hitung mundur 15 menit.
+- Selama 15 menit itu, kunjungan berikutnya langsung diarahkan ke URL asli tanpa iklan.
+- Setelah 15 menit habis, iklan muncul lagi pada kunjungan berikutnya.
 - max 20 short url aktif
 
 Pengguna Premium:
