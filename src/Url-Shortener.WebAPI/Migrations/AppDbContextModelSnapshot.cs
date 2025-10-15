@@ -22,7 +22,7 @@ namespace UrlShortener.WebAPI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("UrlShortener.WebAPI.Models.ShortUrl", b =>
+            modelBuilder.Entity("Url-Shortener.WebAPI.Models.ShortUrl", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

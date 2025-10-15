@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlShortener.WebAPI", "src\UrlShortener.WebAPI\UrlShortener.WebAPI.csproj", "{3DB0EAC0-6FD2-41A3-965B-DAA19666C7BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Url-Shortener.WebAPI", "src\Url-Shortener.WebAPI\Url-Shortener.WebAPI.csproj", "{3DB0EAC0-6FD2-41A3-965B-DAA19666C7BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
