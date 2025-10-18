@@ -1,6 +1,90 @@
 bin/
 obj/
+out/
+publish/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
 .idea
+
+# IDEs / editors
+.vs/
+.vscode/
+.idea/
+riderModule.iml
+*.iml
+
+# Visual Studio user and workspace files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+out/
+publish/
+
+# NuGet / packages
+packages/
+*.nupkg
+.nuget/
+
+# Publish / publish profiles
+PublishProfiles/
+*.Publish.xml
+
+# Runtime / debug files
+*.pdb
+*.exe
+*.dll
+*.cache
+*.ilk
+*.log
+
+# Test results / coverage
+TestResults/
+*.trx
+coverage/
+*.coverage
+*.coveragexml
+VisualStudioTestPlatform.log
+
+# Local settings, secrets and environment files
+secrets.json
+local.settings.json
+appsettings*.Local.json
+.env
+
+# Databases and local DB files
+*.mdf
+*.ldf
+*.db
+*.dbmdl
+*.sdf
+
+# JetBrains / ReSharper caches
+/_ReSharper.Caches/
+_ReSharper.Caches/
+
+# Node (if frontend exists)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# .NET tools
+.dotnet/
+.dotnet/tools/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*~

@@ -9,9 +9,11 @@ Pengguna Gratis:
 - Kunjungan pertama ke short URL menampilkan iklan dan memulai hitung mundur 15 menit.
 - Selama 15 menit itu, kunjungan berikutnya langsung diarahkan ke URL asli tanpa iklan.
 - Setelah 15 menit habis, iklan muncul lagi pada kunjungan berikutnya.
+- Pakai status code 302 untuk temporary redirect
 - max 20 short url aktif
 
 Pengguna Premium:
 - bisa buat short url dengan slug custom yang tersedia
 - pengguna url short tidak lagi terkena iklan saat pertama kali mengunjungi url tersebut
+- Pakai status code 301 untuk permanent redirect
 - max 50 short url aktif
