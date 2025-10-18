@@ -12,8 +12,8 @@ using UrlShortener.WebAPI.Database;
 namespace UrlShortener.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251014170932_CreateShortUrlTable")]
-    partial class CreateShortUrlTable
+    [Migration("20251017173109_AddShortUrlTable")]
+    partial class AddShortUrlTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace UrlShortener.WebAPI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Url-Shortener.WebAPI.Models.ShortUrl", b =>
+            modelBuilder.Entity("UrlShortener.WebAPI.Models.ShortUrl", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,13 +39,13 @@ namespace UrlShortener.WebAPI.Migrations
 
                     b.Property<string>("OriginalUrl")
                         .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)");
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
 
                     b.Property<string>("ShortCode")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

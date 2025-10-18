@@ -7,17 +7,32 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <PublishAot>false</PublishAot>
         <RootNamespace>UrlShortener.WebAPI</RootNamespace>
+        <UserSecretsId>d517b664-9fc0-4ebe-9134-54a0e36103b8</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.5.1" />
+      <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.5.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.9" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.9" />
       <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" Version="9.10.0" />
+      <PackageReference Include="MinimalApis.Extensions" Version="0.11.0" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
       <PackageReference Include="Scalar.AspNetCore" Version="2.8.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Url-Shortener.ServiceDefaults\Url-Shortener.ServiceDefaults.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>

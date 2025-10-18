@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
-namespace UrlShortener.WebAPI.Models;
+namespace UrlShortener.WebAPI.Entities;
 
 [Index(nameof(ShortCode), IsUnique = true)]
 public class ShortUrl
@@ -9,10 +9,10 @@ public class ShortUrl
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
     
-    [Required, MaxLength(50)]
+    [Required, MaxLength(64)]
     public string ShortCode { get; set; } = string.Empty;
     
-    [Required, MaxLength(512), Url]
+    [Required, MaxLength(1024), Url]
     public string OriginalUrl { get; set; } = string.Empty;
     
     [Required]

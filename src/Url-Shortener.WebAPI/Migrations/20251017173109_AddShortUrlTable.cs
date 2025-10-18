@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UrlShortener.WebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateShortUrlTable : Migration
+    public partial class AddShortUrlTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,8 @@ namespace UrlShortener.WebAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ShortCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    OriginalUrl = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: false),
+                    ShortCode = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    OriginalUrl = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
