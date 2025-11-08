@@ -3,8 +3,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var postgres = builder.AddPostgres("postgres")
     .WithImage("postgres:17-alpine")
-    .WithDataVolume()
-    .WithPgAdmin()
+    .WithDataVolume().WithPgWeb()
     .AddDatabase( "url-shortener");
 
 var redis = builder.AddRedis("redis");

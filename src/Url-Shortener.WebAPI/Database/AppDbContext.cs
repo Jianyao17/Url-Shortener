@@ -20,5 +20,31 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options)
             if (tableName != null && tableName.StartsWith("AspNet")) 
                 entityType.SetTableName(tableName.Substring(6));
         }
+        
+        // User - ShortUrl relationship
+        builder.Entity<User>()
+            .HasMany(u => u.ShortUrls)
+            .WithOne(su => su.User)
+            .HasForeignKey(su => su.UserId);
+        
+        // User - ShortUrlChange relationship
+        builder.Entity<User>()
+            .HasMany(u => u.ShortUrlChanges)
+            .WithOne(suc => suc.User)
+            .HasForeignKey(suc => suc.UserId);
+        
+        // ShortUrl - ShortUrlChange relationship
+        builder.Entity<ShortUrl>()
+            .HasMany(su => su.Changes)
+            .WithOne(suc => suc.ShortUrl)
+            .HasForeignKey(suc => suc.ShortUrlId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        // ShortUrl - ShortUrlClick relationship
+        builder.Entity<ShortUrl>()
+            .HasMany(su => su.Clicks)
+            .WithOne(suc => suc.ShortUrl)
+            .HasForeignKey(suc => suc.ShortUrlId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
