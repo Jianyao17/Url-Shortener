@@ -13,6 +13,7 @@
     <ItemGroup>
       <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.5.1" />
       <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.5.1" />
+      <PackageReference Include="CmdScale.EntityFrameworkCore.TimescaleDB" Version="0.3.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.9" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.9" />
       <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
