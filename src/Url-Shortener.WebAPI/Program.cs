@@ -10,7 +10,8 @@ using UrlShortener.WebAPI.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults(); // Adds logging, configuration, and other common services from Aspire
-builder.AddNpgsqlDbContext<AppDbContext>("url-shortener");
+builder.AddNpgsqlDbContext<AppDbContext>("url-shortener", 
+    configureDbContextOptions: option => option.AddInterceptors(new SoftDeleteInterceptor()));
 builder.AddRedisDistributedCache("redis");
 
 // Load all configuration sections from "Configs" namespace

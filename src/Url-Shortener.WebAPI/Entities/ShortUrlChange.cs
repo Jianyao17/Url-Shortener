@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using UrlShortener.WebAPI.Database;
 
 namespace UrlShortener.WebAPI.Entities;
 
-public class ShortUrlChange
+public class ShortUrlChange : ISoftDeletable
 {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
@@ -21,4 +22,7 @@ public class ShortUrlChange
     public string? OriginalUrlAfter { get; set; }
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    
+    public DateTime? DeletedAt { get; set; }
+    public bool IsDeleted { get; set; }
 }
