@@ -8,7 +8,7 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options)
     : IdentityDbContext<User, UserRole, Guid>(options)
 {
     public DbSet<ShortUrl> ShortUrls { get; set; }
-
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -46,5 +46,21 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options)
             .WithOne(suc => suc.ShortUrl)
             .HasForeignKey(suc => suc.ShortUrlId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        // Global query filters & index for soft deletion
+        builder.Entity<ShortUrl>()
+            .HasQueryFilter(x => x.DeletedAt == null)
+            .HasIndex(x => x.DeletedAt)
+            .HasFilter("DeletedAt IS NULL");
+        
+        builder.Entity<ShortUrlChange>()
+            .HasQueryFilter(x => x.DeletedAt == null)
+            .HasIndex(x => x.DeletedAt)
+            .HasFilter("DeletedAt IS NULL");
+        
+        builder.Entity<ShortUrlClick>()
+            .HasQueryFilter(x => x.DeletedAt == null)
+            .HasIndex(x => x.DeletedAt)
+            .HasFilter("DeletedAt IS NULL");
     }
 }
