@@ -25,9 +25,7 @@ public class ShortUrl : ISoftDeletable
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    
     public DateTime? DeletedAt { get; set; }
-    public bool IsDeleted { get; set; }
     
     public ICollection<ShortUrlChange> Changes { get; set; } = new List<ShortUrlChange>();
     public ICollection<ShortUrlClick> Clicks { get; set; } = new List<ShortUrlClick>();

@@ -12,7 +12,7 @@ namespace UrlShortener.WebAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ShortUrlClick",
+                name: "ShortUrlClicks",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -24,13 +24,14 @@ namespace UrlShortener.WebAPI.Migrations
                     City = table.Column<string>(type: "text", nullable: true),
                     Latitude = table.Column<double>(type: "double precision", nullable: true),
                     Longitude = table.Column<double>(type: "double precision", nullable: true),
-                    ClickedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ClickedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShortUrlClick", x => x.Id);
+                    table.PrimaryKey("PK_ShortUrlClicks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShortUrlClick_ShortUrls_ShortUrlId",
+                        name: "FK_ShortUrlClicks_ShortUrls_ShortUrlId",
                         column: x => x.ShortUrlId,
                         principalTable: "ShortUrls",
                         principalColumn: "Id",
@@ -38,33 +39,23 @@ namespace UrlShortener.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShortUrls_DeletedAt",
-                table: "ShortUrls",
-                column: "DeletedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShortUrls_IsActive",
-                table: "ShortUrls",
-                column: "IsActive");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShortUrlClick_City",
-                table: "ShortUrlClick",
+                name: "IX_ShortUrlClicks_City",
+                table: "ShortUrlClicks",
                 column: "City");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShortUrlClick_Country",
-                table: "ShortUrlClick",
+                name: "IX_ShortUrlClicks_Country",
+                table: "ShortUrlClicks",
                 column: "Country");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShortUrlClick_Latitude_Longitude",
-                table: "ShortUrlClick",
+                name: "IX_ShortUrlClicks_Latitude_Longitude",
+                table: "ShortUrlClicks",
                 columns: new[] { "Latitude", "Longitude" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShortUrlClick_ShortUrlId_ClickedAt",
-                table: "ShortUrlClick",
+                name: "IX_ShortUrlClicks_ShortUrlId_ClickedAt",
+                table: "ShortUrlClicks",
                 columns: new[] { "ShortUrlId", "ClickedAt" });
         }
 
@@ -72,15 +63,7 @@ namespace UrlShortener.WebAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ShortUrlClick");
-
-            migrationBuilder.DropIndex(
-                name: "IX_ShortUrls_DeletedAt",
-                table: "ShortUrls");
-
-            migrationBuilder.DropIndex(
-                name: "IX_ShortUrls_IsActive",
-                table: "ShortUrls");
+                name: "ShortUrlClicks");
         }
     }
 }

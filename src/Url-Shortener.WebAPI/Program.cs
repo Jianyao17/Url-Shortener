@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Scalar.AspNetCore;
-using UrlShortener.WebAPI.Config;
 using UrlShortener.WebAPI.Database;
 using UrlShortener.WebAPI.Endpoints;
 using UrlShortener.WebAPI.Entities;
@@ -10,9 +9,9 @@ using UrlShortener.WebAPI.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults(); // Adds logging, configuration, and other common services from Aspire
+builder.AddRedisDistributedCache("redis");
 builder.AddNpgsqlDbContext<AppDbContext>("url-shortener", 
     configureDbContextOptions: option => option.AddInterceptors(new SoftDeleteInterceptor()));
-builder.AddRedisDistributedCache("redis");
 
 // Load all configuration sections from "Configs" namespace
 builder.Services.AddAllConfigs(builder.Configuration);

@@ -12,7 +12,7 @@ namespace UrlShortener.WebAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ShortUrlChange",
+                name: "ShortUrlChanges",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -22,19 +22,20 @@ namespace UrlShortener.WebAPI.Migrations
                     ShortCodeAfter = table.Column<string>(type: "text", nullable: true),
                     OriginalUrlBefore = table.Column<string>(type: "text", nullable: true),
                     OriginalUrlAfter = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShortUrlChange", x => x.Id);
+                    table.PrimaryKey("PK_ShortUrlChanges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShortUrlChange_ShortUrls_ShortUrlId",
+                        name: "FK_ShortUrlChanges_ShortUrls_ShortUrlId",
                         column: x => x.ShortUrlId,
                         principalTable: "ShortUrls",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShortUrlChange_Users_UserId",
+                        name: "FK_ShortUrlChanges_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -42,13 +43,13 @@ namespace UrlShortener.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShortUrlChange_ShortUrlId",
-                table: "ShortUrlChange",
+                name: "IX_ShortUrlChanges_ShortUrlId",
+                table: "ShortUrlChanges",
                 column: "ShortUrlId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShortUrlChange_UserId",
-                table: "ShortUrlChange",
+                name: "IX_ShortUrlChanges_UserId",
+                table: "ShortUrlChanges",
                 column: "UserId");
         }
 
@@ -56,7 +57,7 @@ namespace UrlShortener.WebAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ShortUrlChange");
+                name: "ShortUrlChanges");
         }
     }
 }
