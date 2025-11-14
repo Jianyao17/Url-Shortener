@@ -5,7 +5,7 @@
 namespace UrlShortener.WebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class AddSoftDeleteInterface : Migration
+    public partial class AddTableRelationAndIndexes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,19 +14,19 @@ namespace UrlShortener.WebAPI.Migrations
                 name: "IX_ShortUrls_DeletedAt",
                 table: "ShortUrls",
                 column: "DeletedAt",
-                filter: "DeletedAt IS NULL");
+                filter: "\"DeletedAt\" IS NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShortUrlClick_DeletedAt",
-                table: "ShortUrlClick",
+                name: "IX_ShortUrlClicks_DeletedAt",
+                table: "ShortUrlClicks",
                 column: "DeletedAt",
-                filter: "DeletedAt IS NULL");
+                filter: "\"DeletedAt\" IS NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShortUrlChange_DeletedAt",
-                table: "ShortUrlChange",
+                name: "IX_ShortUrlChanges_DeletedAt",
+                table: "ShortUrlChanges",
                 column: "DeletedAt",
-                filter: "DeletedAt IS NULL");
+                filter: "\"DeletedAt\" IS NULL");
         }
 
         /// <inheritdoc />
@@ -37,12 +37,12 @@ namespace UrlShortener.WebAPI.Migrations
                 table: "ShortUrls");
 
             migrationBuilder.DropIndex(
-                name: "IX_ShortUrlClick_DeletedAt",
-                table: "ShortUrlClick");
+                name: "IX_ShortUrlClicks_DeletedAt",
+                table: "ShortUrlClicks");
 
             migrationBuilder.DropIndex(
-                name: "IX_ShortUrlChange_DeletedAt",
-                table: "ShortUrlChange");
+                name: "IX_ShortUrlChanges_DeletedAt",
+                table: "ShortUrlChanges");
         }
     }
 }

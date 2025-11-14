@@ -12,8 +12,8 @@ using UrlShortener.WebAPI.Database;
 namespace UrlShortener.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251108182915_AddShortUrlChangesTable")]
-    partial class AddShortUrlChangesTable
+    [Migration("20251114170156_AddShortUrlClicksTable")]
+    partial class AddShortUrlClicksTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,8 @@ namespace UrlShortener.WebAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IsActive");
+
                     b.HasIndex("ShortCode")
                         .IsUnique();
 
@@ -176,6 +178,9 @@ namespace UrlShortener.WebAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("OriginalUrlAfter")
@@ -202,7 +207,58 @@ namespace UrlShortener.WebAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShortUrlChange");
+                    b.ToTable("ShortUrlChanges");
+                });
+
+            modelBuilder.Entity("UrlShortener.WebAPI.Entities.ShortUrlClick", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ClickedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double?>("Latitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("ReferenceAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ShortUrlId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("UserAgent")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("City");
+
+                    b.HasIndex("Country");
+
+                    b.HasIndex("Latitude", "Longitude");
+
+                    b.HasIndex("ShortUrlId", "ClickedAt");
+
+                    b.ToTable("ShortUrlClicks");
                 });
 
             modelBuilder.Entity("UrlShortener.WebAPI.Entities.User", b =>
@@ -368,7 +424,7 @@ namespace UrlShortener.WebAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("UrlShortener.WebAPI.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("ShortUrlChanges")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -378,13 +434,28 @@ namespace UrlShortener.WebAPI.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("UrlShortener.WebAPI.Entities.ShortUrlClick", b =>
+                {
+                    b.HasOne("UrlShortener.WebAPI.Entities.ShortUrl", "ShortUrl")
+                        .WithMany("Clicks")
+                        .HasForeignKey("ShortUrlId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShortUrl");
+                });
+
             modelBuilder.Entity("UrlShortener.WebAPI.Entities.ShortUrl", b =>
                 {
                     b.Navigation("Changes");
+
+                    b.Navigation("Clicks");
                 });
 
             modelBuilder.Entity("UrlShortener.WebAPI.Entities.User", b =>
                 {
+                    b.Navigation("ShortUrlChanges");
+
                     b.Navigation("ShortUrls");
                 });
 #pragma warning restore 612, 618

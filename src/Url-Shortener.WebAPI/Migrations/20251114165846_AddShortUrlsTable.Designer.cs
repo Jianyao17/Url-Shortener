@@ -12,8 +12,8 @@ using UrlShortener.WebAPI.Database;
 namespace UrlShortener.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251018014510_AddAuthIdentityTables")]
-    partial class AddAuthIdentityTables
+    [Migration("20251114165846_AddShortUrlsTable")]
+    partial class AddShortUrlsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,6 +137,9 @@ namespace UrlShortener.WebAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -153,10 +156,17 @@ namespace UrlShortener.WebAPI.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("IsActive");
 
                     b.HasIndex("ShortCode")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ShortUrls");
                 });
@@ -302,6 +312,22 @@ namespace UrlShortener.WebAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("UrlShortener.WebAPI.Entities.ShortUrl", b =>
+                {
+                    b.HasOne("UrlShortener.WebAPI.Entities.User", "User")
+                        .WithMany("ShortUrls")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UrlShortener.WebAPI.Entities.User", b =>
+                {
+                    b.Navigation("ShortUrls");
                 });
 #pragma warning restore 612, 618
         }

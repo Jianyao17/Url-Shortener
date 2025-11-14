@@ -12,8 +12,8 @@ using UrlShortener.WebAPI.Database;
 namespace UrlShortener.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251113181700_AddSoftDeleteInterface")]
-    partial class AddSoftDeleteInterface
+    [Migration("20251114170043_AddShortUrlChangesTable")]
+    partial class AddShortUrlChangesTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,9 +143,6 @@ namespace UrlShortener.WebAPI.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("OriginalUrl")
                         .IsRequired()
                         .HasMaxLength(1024)
@@ -163,9 +160,6 @@ namespace UrlShortener.WebAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DeletedAt")
-                        .HasFilter("DeletedAt IS NULL");
 
                     b.HasIndex("IsActive");
 
@@ -189,9 +183,6 @@ namespace UrlShortener.WebAPI.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("OriginalUrlAfter")
                         .HasColumnType("text");
 
@@ -212,71 +203,11 @@ namespace UrlShortener.WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DeletedAt")
-                        .HasFilter("DeletedAt IS NULL");
-
                     b.HasIndex("ShortUrlId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShortUrlChange");
-                });
-
-            modelBuilder.Entity("UrlShortener.WebAPI.Entities.ShortUrlClick", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("City")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ClickedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("IpAddress")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<double?>("Latitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("Longitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime>("ReferenceAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("ShortUrlId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("UserAgent")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("City");
-
-                    b.HasIndex("Country");
-
-                    b.HasIndex("DeletedAt")
-                        .HasFilter("DeletedAt IS NULL");
-
-                    b.HasIndex("Latitude", "Longitude");
-
-                    b.HasIndex("ShortUrlId", "ClickedAt");
-
-                    b.ToTable("ShortUrlClick");
+                    b.ToTable("ShortUrlChanges");
                 });
 
             modelBuilder.Entity("UrlShortener.WebAPI.Entities.User", b =>
@@ -452,22 +383,9 @@ namespace UrlShortener.WebAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("UrlShortener.WebAPI.Entities.ShortUrlClick", b =>
-                {
-                    b.HasOne("UrlShortener.WebAPI.Entities.ShortUrl", "ShortUrl")
-                        .WithMany("Clicks")
-                        .HasForeignKey("ShortUrlId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ShortUrl");
-                });
-
             modelBuilder.Entity("UrlShortener.WebAPI.Entities.ShortUrl", b =>
                 {
                     b.Navigation("Changes");
-
-                    b.Navigation("Clicks");
                 });
 
             modelBuilder.Entity("UrlShortener.WebAPI.Entities.User", b =>

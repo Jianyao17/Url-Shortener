@@ -28,7 +28,5 @@ public class ShortUrlClick : ISoftDeletable
     public double? Longitude { get; set; }
     
     public DateTime ClickedAt { get; set; } = DateTime.UtcNow;
-    
     public DateTime? DeletedAt { get; set; }
-    public bool IsDeleted { get; set; }
 }

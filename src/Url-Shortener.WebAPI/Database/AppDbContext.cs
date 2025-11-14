@@ -8,6 +8,8 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options)
     : IdentityDbContext<User, UserRole, Guid>(options)
 {
     public DbSet<ShortUrl> ShortUrls { get; set; }
+    public DbSet<ShortUrlChange> ShortUrlChanges { get; set; }
+    public DbSet<ShortUrlClick> ShortUrlClicks { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -20,6 +22,20 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options)
             if (tableName != null && tableName.StartsWith("AspNet")) 
                 entityType.SetTableName(tableName.Substring(6));
         }
+        
+        // Indexes for soft delete filtering
+        builder.Entity<ShortUrl>()
+            .HasIndex(x => x.DeletedAt)
+            .HasFilter("\"DeletedAt\" IS NULL");
+        
+        builder.Entity<ShortUrlChange>()
+            .HasIndex(x => x.DeletedAt)
+            .HasFilter("\"DeletedAt\" IS NULL");
+        
+        builder.Entity<ShortUrlClick>()
+            .HasIndex(x => x.DeletedAt)
+            .HasFilter("\"DeletedAt\" IS NULL");
+        
         
         // User - ShortUrl relationship
         builder.Entity<User>()
@@ -47,20 +63,10 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options)
             .HasForeignKey(suc => suc.ShortUrlId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        // Global query filters & index for soft deletion
-        builder.Entity<ShortUrl>()
-            .HasQueryFilter(x => x.DeletedAt == null)
-            .HasIndex(x => x.DeletedAt)
-            .HasFilter("DeletedAt IS NULL");
         
-        builder.Entity<ShortUrlChange>()
-            .HasQueryFilter(x => x.DeletedAt == null)
-            .HasIndex(x => x.DeletedAt)
-            .HasFilter("DeletedAt IS NULL");
-        
-        builder.Entity<ShortUrlClick>()
-            .HasQueryFilter(x => x.DeletedAt == null)
-            .HasIndex(x => x.DeletedAt)
-            .HasFilter("DeletedAt IS NULL");
+        // Global query filters for soft delete
+        builder.Entity<ShortUrl>().HasQueryFilter(e => e.DeletedAt == null);
+        builder.Entity<ShortUrlChange>().HasQueryFilter(e => e.DeletedAt == null);
+        builder.Entity<ShortUrlClick>().HasQueryFilter(e => e.DeletedAt == null);
     }
 }
