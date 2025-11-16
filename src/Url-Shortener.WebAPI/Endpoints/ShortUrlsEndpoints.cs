@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Asp.Versioning;
 using UrlShortener.WebAPI.Services;
 
 namespace UrlShortener.WebAPI.Endpoints;
@@ -10,8 +11,13 @@ internal static class ShortUrlsEndpoints
 
     internal static void MapShortUrlsEndpoints(this IEndpointRouteBuilder app)
     {
+        var apiVersionSet = app.NewApiVersionSet()
+            .HasApiVersion(new ApiVersion(1))
+            .Build();
+        
         var urlManagerGroup = app
-            .MapGroup("/api")
+            .MapGroup("/api/v{apiVersion:apiVersion}")
+            .WithApiVersionSet(apiVersionSet)
             .ProducesValidationProblem()
             .WithOpenApi().WithTags("URLs Manager");
 

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Identity;
 using UrlShortener.WebAPI.Entities;
 using UrlShortener.WebAPI.Services;
@@ -22,8 +23,13 @@ internal static class UsersAuthEndpoints
     
     internal static void MapUsersAuthEndpoints(this IEndpointRouteBuilder app)
     {
+        var apiVersionSet = app.NewApiVersionSet()
+            .HasApiVersion(new ApiVersion(1))
+            .Build();
+        
         var authGroup = app
-            .MapGroup("/api/auth")
+            .MapGroup("/api/v{apiVersion:apiVersion}/auth")
+            .WithApiVersionSet(apiVersionSet)
             .ProducesValidationProblem()
             .WithOpenApi().WithTags("Authentication");
 

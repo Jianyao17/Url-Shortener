@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Identity;
 using Scalar.AspNetCore;
 using UrlShortener.WebAPI.Database;
@@ -25,8 +26,18 @@ builder.Services
 // Add JWT Authentication
 builder.Services.AddJwtAuthentication();
 
-builder.Services.AddOpenApi();
 builder.Services.AddHybridCache();
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1);
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+})
+.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'V";
+    options.SubstituteApiVersionInUrl = true;
+});
+builder.Services.AddOpenApi();
 
 // Application Services
 builder.Services.AddScoped<JwtIdentityService>();
