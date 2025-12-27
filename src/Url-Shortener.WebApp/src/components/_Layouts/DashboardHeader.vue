@@ -1,7 +1,7 @@
 <template>
   <header class="dashboard-header">
     <div class="header-left">
-      <slot name="search" />
+      <slot name="header-left" />
     </div>
 
     <div class="header-right">

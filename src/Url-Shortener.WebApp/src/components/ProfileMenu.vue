@@ -9,6 +9,7 @@ defineProps<{
   reverse?: boolean
   block?: boolean
   align?: 'left' | 'right'
+  collapsed?: boolean
 }>()
 
 const isOpen = ref(false)
@@ -28,6 +29,7 @@ onClickOutside(menuRef, () => (isOpen.value = false))
     :class="[
       { 'is-reverse': reverse },
       { 'is-block': block },
+      { 'is-collapsed': collapsed},
       `align-${align}`,
     ]"
   >
@@ -43,7 +45,7 @@ onClickOutside(menuRef, () => (isOpen.value = false))
         :src="avatar"
         alt="avatar"
       />
-      <div class="profile-info">
+      <div v-if="!collapsed" class="profile-info">
         <span class="name">{{ name }}</span>
         <span v-if="plan" class="plan">{{ plan }}</span>
       </div>
@@ -80,7 +82,7 @@ onClickOutside(menuRef, () => (isOpen.value = false))
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 8px;
+  gap: 12px;
 
   padding: 6px 8px;
   border-radius: var(--border-radius-1);
@@ -101,6 +103,10 @@ onClickOutside(menuRef, () => (isOpen.value = false))
   flex-direction: row-reverse;
 }
 
+.ui-profile.is-collapsed .ui-profile__trigger {
+  justify-content: center;
+}
+
 /* =====================================================
  * INFO
  * ===================================================== 
@@ -110,6 +116,9 @@ onClickOutside(menuRef, () => (isOpen.value = false))
   min-width: 0;
   flex-direction: column;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .is-reverse .profile-info {
@@ -137,8 +146,8 @@ onClickOutside(menuRef, () => (isOpen.value = false))
  * ===================================================== 
  */
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 999px;
 }
 

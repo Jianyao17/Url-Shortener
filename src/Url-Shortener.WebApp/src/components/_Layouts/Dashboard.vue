@@ -1,18 +1,41 @@
 <script setup lang="ts">
+import { useSidebar } from '@/composables/useSidebar';
 import DashboardContent from './DashboardContent.vue';
-import DashboardHeader from './DashboardHeader.vue';
 import DashboardSidebar from './DashboardSidebar.vue';
+import SidebarToggle from '../SidebarToggle.vue';
+
+const { 
+  isCollapsed, isOpen, isMobile, 
+  close, sidebarWidth } = useSidebar();
 </script>
 
 <template>
   <div class="dashboard-layout">
-    <DashboardSidebar>
-      <template #menu>
-        <slot name="sidebar-menu" />
-      </template>
-    </DashboardSidebar>
+    <!-- BACKDROP (mobile) -->
+    <div
+      v-if="isMobile && isOpen"
+      class="sidebar-backdrop"
+      @click="close"
+    />
 
-    <div class="dashboard-main">
+    <!-- SIDEBAR -->
+    <DashboardSidebar 
+      :collapsed="isCollapsed"
+      :open="isOpen"
+      :mobile="isMobile"
+      @close="close"
+    />
+
+    <div 
+      class="dashboard-main"
+      :style="{ marginLeft: isMobile ? '0' : `${sidebarWidth}px` }"
+    >
+      <SidebarToggle
+        :position="{ left: `${sidebarWidth + 16}px`, top: '12px' }"
+        @click=" isMobile
+            ? (isOpen = true)
+            : (isCollapsed = !isCollapsed)"
+      />
       <DashboardContent>
         <slot name="main-page" />
       </DashboardContent>
@@ -38,5 +61,12 @@ import DashboardSidebar from './DashboardSidebar.vue';
 
 .dark .dashboard-layout {
   background-color: var(--neutral-900);
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 15;
 }
 </style>

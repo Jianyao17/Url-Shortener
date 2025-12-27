@@ -1,30 +1,40 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 import { useThemeStore } from './stores/theme.store';
+import Button from "./components/Button.vue";
+import InputField from "./components/InputField.vue";
+import Table from "./components/Table.vue";
+import Dashboard from "./components/_Layouts/Dashboard.vue";
 
-const { theme, toggleTheme } = useThemeStore();
+const themeStore = useThemeStore();
 </script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
-  <button @click="toggleTheme" class="btn">
-    Current theme: {{ theme }} (click to toggle)
-  </button>
+  <Dashboard>
+    <template #global-search>
+      <InputField
+        type="text"
+        placeholder="Search..."
+        leadingIcon="mdi:magnify"
+      />
+    </template>
+    <template #main-page>
+      <InputField
+        type="text"
+        label="Original Url" required
+        placeholder="Enter URL here..."
+        leadingIcon="mdi:link-variant"
+      />
+      <Button variant="primary" size="md"
+      @click="themeStore.toggleTheme" 
+      leadingIcon="tabler:square-rounded-plus"
+      >
+        Toggle Theme
+      </Button>
+      <Table />
+    </template>
+  </Dashboard>
 </template>
 
 <style scoped>
-.btn
-{
-  background-color: red;
-  color: white;
-}
-
-.dark .btn
-{
-  background-color: blue;
-  color: black;
-}
 </style>

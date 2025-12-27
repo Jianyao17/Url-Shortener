@@ -6,6 +6,7 @@ import type { SidebarMenuItem } from '@/types/sidebar.menu';
 
 const props = defineProps<{
   item: SidebarMenuItem
+  collapsed?: boolean
 }>()
 
 const route = useRoute()
@@ -17,7 +18,7 @@ const isActive = computed(() =>
   return route.path === props.item.to
 })
 
-function onClick() 
+function navigate() 
 {
   if (props.item.disabled || !props.item.to) return
   router.push(props.item.to)
@@ -31,9 +32,10 @@ function onClick()
     :class="{
       'is-active': isActive,
       'is-disabled': item.disabled,
+      'is-collapsed': collapsed
     }"
     :disabled="item.disabled"
-    @click="onClick"
+    @click="navigate"
   >
     <Icon
       v-if="item.icon"
@@ -42,7 +44,7 @@ function onClick()
       :inline="true"
     />
 
-    <span class="ui-sidebar-item__label">
+    <span v-if="!collapsed" class="ui-sidebar-item__label">
       {{ item.label }}
     </span>
   </button>
@@ -120,6 +122,12 @@ function onClick()
 .ui-sidebar-item.is-disabled {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.ui-sidebar-item.is-collapsed {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /* =====================================================
