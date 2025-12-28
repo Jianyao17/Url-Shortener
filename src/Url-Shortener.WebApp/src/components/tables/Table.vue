@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import TableBody from './tables/TableBody.vue';
-import TableCell from './tables/TableCell.vue';
-import TableHead from './tables/TableHead.vue';
-import TableRoot from './tables/TableRoot.vue';
-import TableRow from './tables/TableRow.vue';
+import TableBody from './TableBody.vue';
+import TableCell from './TableCell.vue';
+import TableHead from './TableHead.vue';
+import TableRoot from './TableRoot.vue';
+import TableRow from './TableRow.vue';
 
 
 const users = [

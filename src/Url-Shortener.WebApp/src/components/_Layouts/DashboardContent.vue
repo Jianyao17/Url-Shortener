@@ -7,7 +7,7 @@
 <style scoped>
 .dashboard-content {
   flex: 1;
-  padding: 64px;
+  padding: 64px 72px;
   overflow-y: auto;
   background-color: var(--neutral-50);
 }
