@@ -5,6 +5,7 @@ import App from './App.vue';
 import router from './router';
 
 import './assets/styles.css';
+import './plugins/echarts';
 
 const app = createApp(App);
 
