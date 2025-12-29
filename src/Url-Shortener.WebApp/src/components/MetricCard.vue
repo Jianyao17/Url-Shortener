@@ -5,6 +5,7 @@ import { Icon } from '@iconify/vue'
 type Trend = 'up' | 'down' | 'neutral'
 type ChangeType = 'percent' | 'number'
 
+
 const props = defineProps<{
   label: string
   value: string | number
@@ -12,6 +13,7 @@ const props = defineProps<{
   changeType?: ChangeType
   icon?: string
   trend?: Trend
+  loading?: boolean
 }>()
 
 const resolvedTrend = computed<Trend>(() => 
@@ -49,44 +51,162 @@ const formattedChange = computed(() =>
 </script>
 
 <template>
-  <div class="ui-stat-card">
-    <!-- HEADER -->
-    <div class="ui-stat-card__header">
-      <Icon
-        v-if="icon"
-        :icon="icon"
-        :inline="true"
-        class="metric-icon"
-      />
-      <span class="label">{{ label }}</span>
-    </div>
-
-    <!-- VALUE -->
-    <div class="ui-stat-card__value">
-      {{ value }}
-    </div>
-
-    <!-- FOOTER -->
+  <Transition name="fade-slide-up" :appear="true">
     <div
-      v-if="change !== undefined"
-      class="ui-stat-card__trend"
-      :class="trendClass"
+      class="ui-stat-card"
+      :class="{ skeleton: loading }"
     >
-      <Icon
-        :icon="trendIcon"
-        class="trend-icon"
-      />
-      <span class="trend-value">
-        {{ formattedChange }}
-      </span>
-      <span class="trend-label">
-        vs last period
-      </span>
+      <!-- HEADER (tetap tampil) -->
+      <div class="ui-stat-card__header animate-row-1">
+        <Icon
+          v-if="icon"
+          :icon="icon"
+          :inline="true"
+          class="metric-icon"
+        />
+        <span class="label">{{ label }}</span>
+      </div>
+
+      <!-- VALUE -->
+      <div class="ui-stat-card__value animate-row-2">
+        <span v-if="!loading">
+          {{ value }}
+        </span>
+        <span
+          v-else
+          class="skeleton skeleton-value"
+        />
+      </div>
+
+      <!-- FOOTER / CHANGE -->
+      <div
+        v-if="change !== undefined"
+        class="ui-stat-card__trend animate-row-3"
+        :class="trendClass"
+      >
+        <template v-if="!loading">
+          <Icon
+            :icon="trendIcon"
+            class="trend-icon"
+          />
+          <span class="trend-value">
+            {{ formattedChange }}
+          </span>
+          <span class="trend-label">
+            vs last period
+          </span>
+        </template>
+
+        <template v-else>
+          <span class="skeleton skeleton-change" />
+        </template>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
+
 <style scoped>
+/* =====================================================
+ * ANIMATION
+ * ===================================================== 
+ */
+.fade-slide-up-enter-active, .fade-slide-up-leave-active {
+  transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+}
+.fade-slide-up-enter-from, .fade-slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.fade-slide-up-enter-to, .fade-slide-up-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered animation for rows */
+.animate-row-1 {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+.animate-row-2 {
+  animation: fade-in-up 0.5s ease-out 0.1s forwards;
+  opacity: 0;
+}
+.animate-row-3 {
+  animation: fade-in-up 0.5s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================================================
+ * SKELETON
+ * ===================================================== 
+ */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--neutral-200);
+  border-radius: 6px;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.5),
+    transparent
+  );
+  animation: skeleton-shimmer 1.4s infinite;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* VALUE skeleton */
+.skeleton-value {
+  display: inline-block;
+  width: 120px;
+  height: 36px;
+}
+
+/* CHANGE skeleton */
+.skeleton-change {
+  display: inline-block;
+  width: 80px;
+  height: 14px;
+}
+
+/* Dark mode */
+.dark .skeleton {
+  background-color: var(--neutral-700);
+}
+
+.dark .skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.15),
+    transparent
+  );
+}
+
+
 /* =====================================================
  * BASE
  * ===================================================== 
@@ -114,6 +234,12 @@ const formattedChange = computed(() =>
   box-shadow: var(--shadow-red-soft);
   transform: translateY(-1%);
   scale: 1.002;
+}
+
+.ui-stat-card.skeleton:hover {
+  box-shadow: none;
+  transform: none;
+  scale: 1;
 }
 
 /* =====================================================
