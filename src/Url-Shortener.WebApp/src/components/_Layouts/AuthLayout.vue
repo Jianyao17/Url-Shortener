@@ -38,6 +38,15 @@ defineProps<{
   box-shadow: 8px 12px 16px 8px var(--primary-red-50);
 }
 
+@media (max-width: 425px) {
+  .auth-card {
+    border: none;
+    box-shadow: none;
+    margin: 0 16px;
+    padding: 24px;
+  }
+}
+
 .auth-title {
   font-size: 24px;
   font-weight: 700;

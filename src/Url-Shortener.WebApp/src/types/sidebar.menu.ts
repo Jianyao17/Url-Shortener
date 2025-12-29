@@ -12,7 +12,7 @@ export const sidebarMenu: SidebarMenuItem[] =
   {
     label: 'Dashboard',
     icon: 'mdi:view-dashboard',
-    to: '/dashboard',
+    to: '/app/dashboard',
   },
   {
     label: 'Users',

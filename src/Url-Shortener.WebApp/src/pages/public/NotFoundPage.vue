@@ -4,10 +4,10 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <div class="not-found-container">
-    <img src="../assets/404.svg" alt="404 Not Found" class="not-found-image" />
+    <img src="@/assets/404.svg" alt="404 Not Found" class="not-found-image" />
     <h1 class="not-found-title">404 - Page Not Found</h1>
     <p class="not-found-description">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
-    <RouterLink to="/" class="not-found-button">Go to Dashboard</RouterLink>
+    <RouterLink to="/app/dashboard" class="not-found-button">Go to Dashboard</RouterLink>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ import { RouterLink } from 'vue-router'
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 80vh;
   background-color: var(--neutral-50); /* Light mode background */
   color: var(--neutral-800); /* Light mode text color */
   padding: 20px;

@@ -1,37 +1,44 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icon } from '@iconify/vue'
 import AuthLayout from '@/components/_Layouts/AuthLayout.vue'
 import InputField from '@/components/InputField.vue'
 import Button from '@/components/Button.vue'
 import GoogleButton from '@/components/GoogleButton.vue'
 
+const name = ref('')
 const email = ref('')
 const password = ref('')
+const confirmPassword = ref('')
 const loading = ref(false)
 
 function submit() 
 {
   loading.value = true
-  // TODO: call API
+  // TODO: validation + API
   setTimeout(() => {
     loading.value = false
   }, 1000)
 }
 
-function loginWithGoogle() 
+function registerWithGoogle() 
 {
-  // TODO: integrate Google OAuth
-  console.log('Login with Google')
+  console.log('Register with Google')
 }
 </script>
 
 <template>
   <AuthLayout
-    title="Welcome back"
-    subtitle="Sign in to your account"
+    title="Create an account"
+    subtitle="Start using MyApp today"
   >
     <form class="auth-form" @submit.prevent="submit">
+      <InputField
+        v-model="name"
+        label="Full name"
+        placeholder="John Doe"
+        required
+      />
+
       <InputField
         v-model="email"
         label="Email"
@@ -44,16 +51,21 @@ function loginWithGoogle()
         v-model="password"
         label="Password"
         type="password"
-        placeholder="••••••••"
+        required
+      />
+
+      <InputField
+        v-model="confirmPassword"
+        label="Confirm password"
+        type="password"
         required
       />
 
       <Button class="submit-button"
         type="submit"
         :loading="loading"
-        block
       >
-        Sign in
+        Create account
       </Button>
     </form>
 
@@ -61,16 +73,18 @@ function loginWithGoogle()
       <span>or</span>
     </div>
 
-    <GoogleButton @click="loginWithGoogle" />
+    <GoogleButton 
+      text="Sign Up with Google"
+      @click="registerWithGoogle" />
 
     <p class="auth-footer">
-      Don’t have an account?
-      <RouterLink to="/register">Create one</RouterLink>
+      Already have an account?
+      <RouterLink to="/login">Sign in</RouterLink>
     </p>
   </AuthLayout>
 </template>
 
-<style scoped>
+<style scoped> 
 .auth-form {
   display: flex;
   flex-direction: column;

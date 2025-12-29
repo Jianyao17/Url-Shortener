@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useSidebar } from '@/composables/useSidebar';
 import DashboardContent from './DashboardContent.vue';
 import DashboardSidebar from './DashboardSidebar.vue';
 import SidebarToggle from '../SidebarToggle.vue';
-import { computed } from 'vue';
 
 const { 
   isCollapsed, isOpen, isMobile, 
@@ -38,7 +38,7 @@ const paddingLeft = computed(() => isMobile.value ? 24 : 16)
         @click=" isMobile ? (isOpen = true) : toggleCollapse()"
       />
       <DashboardContent>
-        <slot name="main-page" />
+        <RouterView />
       </DashboardContent>
     </div>
   </div>
