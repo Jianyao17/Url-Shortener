@@ -15,4 +15,10 @@
 .dark .dashboard-content {
   background-color: var(--neutral-900);
 }
+
+@media (max-width: 425px) {
+  .dashboard-content {
+    padding: 64px 24px;
+  }
+}
 </style>

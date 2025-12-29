@@ -35,7 +35,7 @@ defineEmits(['close'])
         v-for="item in sidebarMenu"
         :collapsed="collapsed"
         :key="item.label"
-        :item="item"
+        :item="item"b
       />
     </nav>
 

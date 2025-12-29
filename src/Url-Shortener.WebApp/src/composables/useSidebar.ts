@@ -25,16 +25,19 @@ export function useSidebar()
     if (val) {
       isOpen.value = false
       isCollapsed.value = false
+    } else {
+      // restore persisted state
+      isCollapsed.value = persistedCollapsed.value
     }
   }, { immediate: true })
 
-  // persist collapsed state
-  watch(isCollapsed, (val) => 
+  // set and save collapsed state
+  const setCollapsed = (val: boolean) =>
   {
-    if (!isMobile.value) {
+    isCollapsed.value = val
+    if (isMobile.value == false)
       persistedCollapsed.value = val
-    }
-  })
+  }
 
   const sidebarWidth = computed(() => 
   {
@@ -47,7 +50,7 @@ export function useSidebar()
     isCollapsed,
     isOpen,
     sidebarWidth,
-    toggleCollapse: () => (isCollapsed.value = !isCollapsed.value),
+    toggleCollapse: () => setCollapsed(!isCollapsed.value),
     open: () => (isOpen.value = true),
     close: () => (isOpen.value = false),
   }

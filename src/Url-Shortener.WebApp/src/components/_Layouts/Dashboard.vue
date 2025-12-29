@@ -3,10 +3,13 @@ import { useSidebar } from '@/composables/useSidebar';
 import DashboardContent from './DashboardContent.vue';
 import DashboardSidebar from './DashboardSidebar.vue';
 import SidebarToggle from '../SidebarToggle.vue';
+import { computed } from 'vue';
 
 const { 
   isCollapsed, isOpen, isMobile, 
-  close, sidebarWidth } = useSidebar();
+  close, toggleCollapse, sidebarWidth } = useSidebar();
+
+const paddingLeft = computed(() => isMobile.value ? 24 : 16)
 </script>
 
 <template>
@@ -20,7 +23,7 @@ const {
 
     <!-- SIDEBAR -->
     <DashboardSidebar 
-      :collapsed="isCollapsed"
+      :collapsed="isMobile ? false : isCollapsed"
       :open="isOpen"
       :mobile="isMobile"
       @close="close"
@@ -31,10 +34,8 @@ const {
       :style="{ marginLeft: isMobile ? '0' : `${sidebarWidth}px` }"
     >
       <SidebarToggle
-        :position="{ left: `${sidebarWidth + 16}px`, top: '12px' }"
-        @click=" isMobile
-            ? (isOpen = true)
-            : (isCollapsed = !isCollapsed)"
+        :position="{ left: `${sidebarWidth + paddingLeft}px`, top: '12px' }"
+        @click=" isMobile ? (isOpen = true) : toggleCollapse()"
       />
       <DashboardContent>
         <slot name="main-page" />
